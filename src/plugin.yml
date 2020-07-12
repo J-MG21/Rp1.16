@@ -1,0 +1,8 @@
+name: RP
+author: Kronoxx
+version: 1.0
+main: ca.kronoxx.RP.Main
+commands:
+  job:
+    description: Permet de changer de metier
+    permission: job.use

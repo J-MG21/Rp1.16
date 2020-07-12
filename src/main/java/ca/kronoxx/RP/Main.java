@@ -8,6 +8,7 @@ import ca.kronoxx.RP.Bukkit.listener.*;
 public class Main extends JavaPlugin {
 
     private Database database;
+
     @Override
     public void onLoad() {
         String password = System.getenv("dbPassword");
@@ -20,7 +21,6 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         getCommand("test").setExecutor(new Cmd());
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-
     }
 
     @Override

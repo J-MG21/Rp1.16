@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class Cmd implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -41,8 +42,5 @@ public class Cmd implements CommandExecutor {
 
         return false;
     }
-
-
-
 
 }

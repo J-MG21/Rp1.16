@@ -11,22 +11,38 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class newCrafts extends JavaPlugin {
 
-    private void newRecipe(){
+    public void newRecipe(){
         //create ItemStack
         ItemStack ironHelmet = new ItemStack(Material.IRON_HELMET);
+        ItemStack ironChestplate = new ItemStack(Material.IRON_CHESTPLATE);
+        ItemStack ironLeggings = new ItemStack(Material.IRON_LEGGINGS);
+        ItemStack ironBoots = new ItemStack(Material.IRON_BOOTS);
 
 
         //crerate receipe
         ShapedRecipe rIronHelmet = new ShapedRecipe(ironHelmet);
+        ShapedRecipe rIronChestplate = new ShapedRecipe(ironChestplate);
+        ShapedRecipe rIronLeggings = new ShapedRecipe(ironLeggings);
+        ShapedRecipe rIronBoots = new ShapedRecipe(ironBoots);
 
 
 
         //receipeShape
-        rIronHelmet.shape("***", "***", "***");
+        rIronHelmet.shape("***", "* *", "  ");
+        rIronChestplate.shape("* *", "***", "***");
+        rIronLeggings.shape("***", "* *", "* *");
+        rIronBoots.shape("   ", "* *", "* *");
 
 
         rIronHelmet.setIngredient('*', Material.IRON_BLOCK);
+        rIronChestplate.setIngredient('*', Material.IRON_BLOCK);
+        rIronLeggings.setIngredient('*', Material.IRON_BLOCK);
+        rIronBoots.setIngredient('*', Material.IRON_BLOCK);
+
         getServer().addRecipe(rIronHelmet);
+        getServer().addRecipe(rIronChestplate);
+        getServer().addRecipe(rIronLeggings);
+        getServer().addRecipe(rIronBoots);
     }
 
     private void removeRecipe(){

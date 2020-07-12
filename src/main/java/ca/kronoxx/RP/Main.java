@@ -1,19 +1,24 @@
 package ca.kronoxx.RP;
 
-import ca.kronoxx.RP.Bukkit.commands.Cmd;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
+import Database.Database;
+import ca.kronoxx.RP.Bukkit.commands.Cmd;;
 import org.bukkit.plugin.java.JavaPlugin;
 import ca.kronoxx.RP.Bukkit.listener.*;
 
 
 public class Main extends JavaPlugin {
 
+    /*
+    private Database database;
     @Override
     public void onLoad() {
-
+        String password = System.getenv("dbPassword");
+        String user = System.getenv("dbUser");
+        this.database = new Database("jdbc:mysql://localhost:3306/minrp", user, password);
+        database.open();
     }
+    */
+
 
     @Override
     public void onEnable() {
@@ -21,20 +26,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new Mort(), this);
 
-
-
-
-
-
-        ItemStack ironHelmet = new ItemStack(Material.IRON_HELMET);
-        //crerate receipe
-        ShapedRecipe rIronHelmet = new ShapedRecipe(ironHelmet);
-
-        //receipeShape
-        rIronHelmet.shape("***", "* *", "   ");
-
-        rIronHelmet.setIngredient('*', Material.IRON_BLOCK);
-        getServer().addRecipe(rIronHelmet);
+        new newCrafts();
 
     }
 

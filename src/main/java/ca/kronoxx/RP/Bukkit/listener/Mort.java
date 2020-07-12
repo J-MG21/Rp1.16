@@ -29,7 +29,7 @@ public class Mort implements Listener {
 
     @EventHandler
     public void playerDeath(PlayerDeathEvent e){
-        e.setDeathMessage("aiuydbaiubdaiwbdaiuwbdaiwubdiuawbdawiudbaiubdawiu");
+        e.setDeathMessage("");
         Player dP = e.getEntity();
 
 
@@ -46,7 +46,6 @@ public class Mort implements Listener {
 
         for(ItemStack i: inv){
             if(i != null){
-                Bukkit.broadcastMessage("Lala");
                 drops.remove(i);
                 Bukkit.broadcastMessage(String.valueOf(inv.length));
             }

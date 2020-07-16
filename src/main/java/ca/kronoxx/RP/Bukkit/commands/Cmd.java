@@ -38,7 +38,30 @@ public class Cmd implements CommandExecutor {
             //job set <player> <job>
 
             //job remove <player>
+
         }
+            //alert
+            if(label.equalsIgnoreCase("alert")){
+                if(args.length == 0) {
+                    player.sendMessage("§cVous devez écrire /alert <message> pour report un problème");
+                    return true;
+                }
+                if(args.length >= 1) {
+                    StringBuilder bc = new StringBuilder();
+                    for(String part : args) {
+                        bc.append(part + " ");
+                    }
+                    for(Player p: Bukkit.getOnlinePlayers()){
+                        if(p.isOp()){
+                            p.sendMessage("§b" + player.getName() +" §c" + bc.toString());
+                        }
+                    }
+                    player.sendMessage("§aVous avez bien envoyé votre problème. Merci !!");
+                    return true;
+                }
+
+            }
+
 
         return false;
     }

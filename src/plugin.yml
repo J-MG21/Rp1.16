@@ -6,3 +6,5 @@ commands:
   job:
     description: Permet de changer de metier
     permission: job.use
+  alert:
+    description: Permet de report un bug

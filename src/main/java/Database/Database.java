@@ -25,7 +25,6 @@ public class Database {
             con = DriverManager.getConnection(connectionURL, username, password);
         } catch (SQLException e) {
             e.printStackTrace();
-            System.exit(-1);
         }
     }
 

@@ -48,6 +48,7 @@ public class RPPlayer {
             return;
         }
         this.health = MIN_HEALTH;
+        player.setHealthScale(this.health);
     }
 
     public void permaHeal(int heal){
@@ -57,6 +58,7 @@ public class RPPlayer {
             return;
         }
         this.health = MAX_HEALTH;
+        player.setHealthScale(this.health);
     }
 
     public void changeJob(String job){

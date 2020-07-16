@@ -11,8 +11,12 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 public class Main extends JavaPlugin {
+    private newCrafts crafts;
 
 
     private newCrafts crafts;

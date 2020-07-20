@@ -11,7 +11,7 @@ public class newCrafts  {
     private ArrayList<String> noneRecipes = new ArrayList<String>();
 
     public ArrayList<Recipe> newRecipe(){
-        //create ItemStack
+        //create ItemStack***********************************************************************************************
         ItemStack ironHelmet = new ItemStack(Material.IRON_HELMET);
         ItemStack ironChestplate = new ItemStack(Material.IRON_CHESTPLATE);
         ItemStack ironLeggings = new ItemStack(Material.IRON_LEGGINGS);
@@ -24,7 +24,9 @@ public class newCrafts  {
         ItemStack chainLeggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
         ItemStack chainBoots = new ItemStack(Material.CHAINMAIL_BOOTS);
 
-        //create receipe
+        ItemStack healPotion = new ItemStack(Material.POTION);
+
+        //create receipe***********************************************************************************************
         ShapedRecipe rIronHelmet = new ShapedRecipe(ironHelmet);
         ShapedRecipe rIronChestplate = new ShapedRecipe(ironChestplate);
         ShapedRecipe rIronLeggings = new ShapedRecipe(ironLeggings);
@@ -37,8 +39,9 @@ public class newCrafts  {
         ShapedRecipe rChainLeggings = new ShapedRecipe(chainLeggings);
         ShapedRecipe rChainBoots = new ShapedRecipe(chainBoots);
 
+        ShapedRecipe rHealPotion = new ShapedRecipe(healPotion);
 
-        //receipeShape
+        //receipeShape***********************************************************************************************
         rIronHelmet.shape("***", "* *");
         rIronChestplate.shape("* *", "***", "***");
         rIronLeggings.shape("***", "* *", "* *");
@@ -51,8 +54,10 @@ public class newCrafts  {
         rChainLeggings.shape("***", "* *", "* *");
         rChainBoots.shape("* *", "* *");
 
+        rHealPotion.shape("*/*","454","343");
 
-        //recipesIngredients
+
+        //recipesIngredients***********************************************************************************************
         rIronHelmet.setIngredient('*', Material.IRON_BLOCK);
         rIronChestplate.setIngredient('*', Material.IRON_BLOCK);
         rIronLeggings.setIngredient('*', Material.IRON_BLOCK);
@@ -65,7 +70,13 @@ public class newCrafts  {
         rChainLeggings.setIngredient('*', Material.IRON_BARS);
         rChainBoots.setIngredient('*', Material.IRON_BARS);
 
-        //addRecipes
+        rHealPotion.setIngredient('*', Material.ROTTEN_FLESH);
+        rHealPotion.setIngredient('/', Material.HEART_OF_THE_SEA);
+        rHealPotion.setIngredient('4', Material.HONEY_BOTTLE);
+        rHealPotion.setIngredient('5', Material.POTION);
+        rHealPotion.setIngredient('3', Material.GOLD_BLOCK);
+
+        //addRecipes***********************************************************************************************
         recipes.add(rIronHelmet);
         recipes.add(rIronChestplate);
         recipes.add(rIronLeggings);
@@ -77,6 +88,8 @@ public class newCrafts  {
         recipes.add(rChainChestplate);
         recipes.add(rChainLeggings);
         recipes.add(rChainBoots);
+
+        recipes.add(rHealPotion);
 
         return recipes;
     }

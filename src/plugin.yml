@@ -6,5 +6,11 @@ commands:
   job:
     description: Permet de changer de metier
     permission: job.use
+  health:
+      description: Permet de changer la vie global d'un joueur
+      permission: health.use
   alert:
     description: Permet de report un bug
+  rumeure:
+    description: Permet de modifier les rumeures
+

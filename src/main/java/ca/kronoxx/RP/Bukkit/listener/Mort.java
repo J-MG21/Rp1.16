@@ -1,5 +1,6 @@
 package ca.kronoxx.RP.Bukkit.listener;
 
+import ca.kronoxx.RP.Main;
 import ca.kronoxx.RP.Taks.Timer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -20,15 +21,23 @@ import java.util.List;
 public class Mort implements Listener {
     private Location location;
     private ItemStack[] inv;
+    private Main main;
+
+    public Mort(Main main){
+        this.main = main;
+    }
 
     @EventHandler
     public void playerDeath(PlayerDeathEvent e){
         e.setDeathMessage("");
         Player dP = e.getEntity();
         playerSave(dP, e.getDrops());
-        dP.setGameMode(GameMode.SPECTATOR);
+        //dP.setGameMode(GameMode.SPECTATOR);
         spawnArmorStand(dP);
-        time();
+        main.playerConection().getRpPlayer(dP).permaDamage(2);
+        dP.setHealthScale(5D);
+        dP.setMaxHealth(main.playerConection().getRpPlayer(dP).getHealth());
+        Bukkit.broadcastMessage(Integer.toString(main.playerConection().getRpPlayer(dP).getHealth()));
     }
 
     private void playerSave(Player player, List<ItemStack> drops){

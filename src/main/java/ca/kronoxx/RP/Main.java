@@ -1,48 +1,41 @@
 package ca.kronoxx.RP;
 
 import Database.Database;
-import ca.kronoxx.RP.Bukkit.commands.Cmd;;
-import ca.kronoxx.RP.Taks.Timer;
-import org.bukkit.Bukkit;
+import ca.kronoxx.RP.Bukkit.commands.MainCmd;;
+import ca.kronoxx.RP.Bukkit.commands.cmd.Rumor;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import ca.kronoxx.RP.Bukkit.listener.*;
-import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 
 public class Main extends JavaPlugin {
     private newCrafts crafts;
-
-
-    private newCrafts crafts;
-
-
     private Database database;
+    private PlayerConection pC = new PlayerConection();
+
+
+
     @Override
     public void onLoad() {
         String password = System.getenv("dbPassword");
         String user = System.getenv("dbUser");
         this.database = new Database("jdbc:mysql://localhost:3306/minrp", user, password);
         database.open();
-
-
     }
 
     @Override
     public void onEnable() {
-        getCommand("job").setExecutor(new Cmd());
-        getCommand("alert").setExecutor(new Cmd());
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        getServer().getPluginManager().registerEvents(new Mort(), this);
+        getCommand("job").setExecutor(new MainCmd(this));
+        getCommand("alert").setExecutor(new MainCmd(this));
+        getCommand("health").setExecutor(new MainCmd(this));
+
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new Mort(this), this);
 
         /*removeRecipes();*/
         //addRecipes();
-
     }
 
     @Override
@@ -69,5 +62,11 @@ public class Main extends JavaPlugin {
             crafts.removeRecipeByKey(s);
         }
     }*/
+
+
+    //****GETTER
+    public PlayerConection playerConection(){
+        return pC;
+    }
 
 }

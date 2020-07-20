@@ -1,5 +1,6 @@
 package ca.kronoxx.RP.Bukkit.listener;
 
+import ca.kronoxx.RP.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,15 +11,23 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 
 public class PlayerListener implements Listener {
+    private Main main;
+
+    public PlayerListener(Main main){
+        this.main = main;
+    }
+
 
     @EventHandler
     private void playerJoin(PlayerJoinEvent pje){
         pje.setJoinMessage("");
+        main.playerConection().addPlayer(pje.getPlayer());
     }
 
     @EventHandler
     private void playerLeave(PlayerQuitEvent pqe){
         pqe.setQuitMessage("");
+        main.playerConection().removePlayer(pqe.getPlayer());
     }
 
     @EventHandler

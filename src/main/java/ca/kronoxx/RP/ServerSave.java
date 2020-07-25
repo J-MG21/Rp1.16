@@ -8,31 +8,23 @@ import org.bukkit.inventory.Recipe;
 import java.lang.management.PlatformLoggingMXBean;
 
 public class ServerSave {
-    private static ServerSave instace;
     private Database db;
 
-    private ServerSave(){
+    public ServerSave(){
         String password = System.getenv("dbPassword");
         String user = System.getenv("dbUser");
         this.db = new Database("jdbc:mysql://localhost:3306/minrp", user, password);
         db.open();
     }
 
-    public static ServerSave getInstance(){
-        if(instace ==  null){
-            instace = new ServerSave();
-        }
-        return instace;
-    }
-
-    public void loadUser(RPPlayer player){
+    public RPPlayer loadUser(Player player){
         db.query("select uuid, health, job from Player");
         if(db.getResult("uuid") != null){
             registerUser(player.getPlayer(), "none");
         }
-        player.loadValue(db.getResult("job"), Integer.parseInt(db.getResult("health")));
+        RPPlayer rp = new RPPlayer(player, db.getResult("job"), Integer.parseInt(db.getResult("health")));
         db.closeResult();
-
+        return rp;
     }
 
     public boolean savePlayerOnDb(RPPlayer player){

@@ -1,46 +1,53 @@
 package ca.kronoxx.RP;
 
-import Database.Database;
-import ca.kronoxx.RP.Bukkit.commands.MainCmd;;
-import ca.kronoxx.RP.Bukkit.commands.cmd.Rumor;
+import ca.kronoxx.RP.Bukkit.commands.RpCommandInterface;;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import ca.kronoxx.RP.Bukkit.listener.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 
 public class Main extends JavaPlugin {
+    private static Main instance;
+
     private newCrafts crafts;
-    private Database database;
-    private PlayerConection pC = new PlayerConection();
-
-
+    private RpCommandInterface rpInterface = new RpCommandInterface();
+    private PlayerListener pListener = new PlayerListener();
+    private DeathListener dListener = new DeathListener();
+    private HashMap<UUID, RPPlayer> rpPlayers = new HashMap<UUID, RPPlayer>();
+    private ServerSave save = new ServerSave();
 
     @Override
     public void onLoad() {
-        String password = System.getenv("dbPassword");
-        String user = System.getenv("dbUser");
-        this.database = new Database("jdbc:mysql://localhost:3306/minrp", user, password);
-        database.open();
+        instance = this;
     }
 
     @Override
     public void onEnable() {
-        getCommand("job").setExecutor(new MainCmd(this));
-        getCommand("alert").setExecutor(new MainCmd(this));
-        getCommand("health").setExecutor(new MainCmd(this));
-
-        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        getServer().getPluginManager().registerEvents(new Mort(this), this);
-
-        /*removeRecipes();*/
-        //addRecipes();
+        configure();
+        setupCommands();
+        setupListeners();
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable() { }
 
+    public void loadNewPlayerInGame(Player player){
+        rpPlayers.put(player.getUniqueId(), save.loadUser(player));
+    }
+
+    public void removePlayerFromGame(RPPlayer player){
+        save.savePlayerOnDb(player);
+        rpPlayers.remove(player);
+    }
+
+    public void removePlayerFromGame(Player player){
+        save.savePlayerOnDb(getRpPlayer(player));
+        rpPlayers.remove(player);
     }
 
     private void addRecipes(){
@@ -53,6 +60,35 @@ public class Main extends JavaPlugin {
         }
     }
 
+    private void configure(){
+        rpInterface = (rpInterface == null)? new RpCommandInterface(): rpInterface;
+        pListener = (pListener == null)? new PlayerListener(): pListener;
+        dListener = (dListener == null)? new DeathListener(): dListener;
+    }
+
+    private void setupListeners(){
+        getServer().getPluginManager().registerEvents(pListener, this);
+        getServer().getPluginManager().registerEvents(dListener, this);
+    }
+
+    private void setupCommands(){
+        getCommand("job").setExecutor(rpInterface);
+        getCommand("alert").setExecutor(rpInterface);
+        getCommand("health").setExecutor(rpInterface);
+    }
+
+    //GETTER///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static Main getInstance(){
+        return instance;
+    }
+
+    public RPPlayer getRpPlayer(Player player){
+        return rpPlayers.get(player.getUniqueId());
+    }
+}
+
+
     /*private void removeRecipes(){
         ArrayList<String> noneRecipes;
         this.crafts = new newCrafts();
@@ -62,11 +98,3 @@ public class Main extends JavaPlugin {
             crafts.removeRecipeByKey(s);
         }
     }*/
-
-
-    //****GETTER
-    public PlayerConection playerConection(){
-        return pC;
-    }
-
-}

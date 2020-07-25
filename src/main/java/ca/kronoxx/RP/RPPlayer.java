@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.management.PlatformLoggingMXBean;
 
-public class RPPlayer {
+public class RPPlayer{
     public static int MAX_HEALTH = 10;
     public static int MIN_HEALTH = 4;
 
@@ -12,11 +12,18 @@ public class RPPlayer {
     private Player player;
     private int health;
 
+    public static RPPlayer genPlayerForSaveLoad(Player player){
+        RPPlayer p = new RPPlayer();
+        p.player = player;
+        return p;
+    }
 
-    public RPPlayer(Player player){
-        ServerSave save = ServerSave.getInstance();
+    public RPPlayer(){}
+
+    public RPPlayer(Player player, String job, int health){
         this.player = player;
-        save.loadUser(this);
+        this.job = job;
+        this.health = health;
     }
 
     public Player getPlayer(){
@@ -26,11 +33,6 @@ public class RPPlayer {
     public void loadValue(String job, int health){
         setHealth(health);
         this.job = job;
-    }
-
-    public boolean savePlayer(){
-        ServerSave save = ServerSave.getInstance();
-        return save.savePlayerOnDb(this);
     }
 
     public String getJob(){
@@ -65,12 +67,11 @@ public class RPPlayer {
         this.job = job;
     }
 
-    public void setHealth(int health){
+    private void setHealth(int health){
         if(health <= MAX_HEALTH && health >= MIN_HEALTH) {
             this.health = health;
             return;
         }
         this.health = MAX_HEALTH;
     }
-
 }

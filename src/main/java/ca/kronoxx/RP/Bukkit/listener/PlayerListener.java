@@ -11,31 +11,25 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 
 public class PlayerListener implements Listener {
-    private Main main;
-
-    public PlayerListener(Main main){
-        this.main = main;
-    }
-
+    public PlayerListener(){}
 
     @EventHandler
     private void playerJoin(PlayerJoinEvent pje){
         pje.setJoinMessage("");
-        main.playerConection().addPlayer(pje.getPlayer());
+        Main.getInstance().loadNewPlayerInGame(pje.getPlayer());
     }
 
     @EventHandler
     private void playerLeave(PlayerQuitEvent pqe){
         pqe.setQuitMessage("");
-        main.playerConection().removePlayer(pqe.getPlayer());
+        Main.getInstance().removePlayerFromGame(pqe.getPlayer());
     }
 
     @EventHandler
     private void playerChat(AsyncPlayerChatEvent pce){
         if(pce.getPlayer().isOp()){
             Bukkit.broadcastMessage("§4[Modérateur] §4" + pce.getPlayer().getName() + "§e > " +pce.getMessage());
-        }
-        else{
+        }else{
             pce.getPlayer().sendMessage("§cLe chat est désactivé");
             pce.getPlayer().sendMessage("§cFaites la commande /alert <msg> pour report un problème");
         }

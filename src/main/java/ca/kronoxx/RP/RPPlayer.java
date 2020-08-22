@@ -67,7 +67,7 @@ public class RPPlayer{
         this.job = job;
     }
 
-    private void setHealth(int health){
+    public void setHealth(int health){
         if(health <= MAX_HEALTH && health >= MIN_HEALTH) {
             this.health = health;
             return;

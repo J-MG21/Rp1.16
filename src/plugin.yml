@@ -1,6 +1,7 @@
 name: RP
 author: Kronoxx and Matdan
 version: 1.0
+api-version: 1.16
 main: ca.kronoxx.RP.Main
 commands:
   job:
@@ -11,6 +12,7 @@ commands:
       permission: health.use
   alert:
     description: Permet de report un bug
-  rumeure:
+  rumor:
     description: Permet de modifier les rumeures
+    permission: rumor.use
 

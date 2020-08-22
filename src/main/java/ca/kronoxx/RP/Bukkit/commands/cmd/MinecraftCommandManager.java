@@ -17,14 +17,18 @@ public class MinecraftCommandManager {
         int min = 0;
         int index = max / 2;
         while (!commands[index].isCommand(label)){
+
             if(commands[index].after(label)){
+
                 max = index - 1;
                 index -= getMaxMinDif(max, min);
             }else {
                 min = index + 1;
                 index += getMaxMinDif(max, min);
             }
-            if(index > max || index < min) return false;
+            if(index > max || index < min) {
+                return false;
+            }
         }
         commands[index].executeCommandTask(sender, cmd, label, args);
         return true;
@@ -39,7 +43,7 @@ public class MinecraftCommandManager {
         for (int i=1; i<commands.length; ++i){
             int j=i;
             MinecraftCommand swap = commands[j];
-            while (j >= 0 && !commands[j].after(commands[j-1])){
+            while (j >= 1 && !swap.after(commands[j-1])){
                 commands[j] = commands[j-1];
                 --j;
             }

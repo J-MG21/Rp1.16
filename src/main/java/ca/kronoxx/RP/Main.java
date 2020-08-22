@@ -31,6 +31,7 @@ public class Main extends JavaPlugin {
         configure();
         setupCommands();
         setupListeners();
+        addRecipes();
     }
 
     @Override
@@ -75,6 +76,7 @@ public class Main extends JavaPlugin {
         getCommand("job").setExecutor(rpInterface);
         getCommand("alert").setExecutor(rpInterface);
         getCommand("health").setExecutor(rpInterface);
+        getCommand("rumor").setExecutor(rpInterface);
     }
 
     //GETTER///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,9 +85,13 @@ public class Main extends JavaPlugin {
         return instance;
     }
 
+    public RpCommandInterface getRpCommands(){return rpInterface;}
+
     public RPPlayer getRpPlayer(Player player){
         return rpPlayers.get(player.getUniqueId());
     }
+
+    public newCrafts getNewCrafts(){return crafts;}
 }
 
 

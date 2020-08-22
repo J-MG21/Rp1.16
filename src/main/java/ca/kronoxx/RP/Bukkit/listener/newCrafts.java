@@ -1,14 +1,20 @@
 package ca.kronoxx.RP.Bukkit.listener;
 
+import ca.kronoxx.RP.Bukkit.listener.crafts.HealPotionCraft;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class newCrafts  {
     private ArrayList<Recipe> recipes = new ArrayList<Recipe>();
     private ArrayList<String> noneRecipes = new ArrayList<String>();
+    public HealPotionCraft HealPotion = new HealPotionCraft();
 
     public ArrayList<Recipe> newRecipe(){
         //create ItemStack***********************************************************************************************
@@ -17,14 +23,16 @@ public class newCrafts  {
         ItemStack ironLeggings = new ItemStack(Material.IRON_LEGGINGS);
         ItemStack ironBoots = new ItemStack(Material.IRON_BOOTS);
 
-        //ItemStack ironBars = new ItemStack(Material.IRON_BARS, 3);
+        ItemStack ironBars = new ItemStack(Material.IRON_BARS, 3);
 
         ItemStack chainHelmet = new ItemStack(Material.CHAINMAIL_HELMET);
         ItemStack chainChestplate = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
         ItemStack chainLeggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
         ItemStack chainBoots = new ItemStack(Material.CHAINMAIL_BOOTS);
 
-        ItemStack healPotion = new ItemStack(Material.POTION);
+        ItemStack healPotion = HealPotion.getHealPotion();
+
+
 
         //create receipe***********************************************************************************************
         ShapedRecipe rIronHelmet = new ShapedRecipe(ironHelmet);
@@ -32,7 +40,7 @@ public class newCrafts  {
         ShapedRecipe rIronLeggings = new ShapedRecipe(ironLeggings);
         ShapedRecipe rIronBoots = new ShapedRecipe(ironBoots);
 
-        //ShapedRecipe rIronBars = new ShapedRecipe(ironBars);
+        ShapedRecipe rIronBars = new ShapedRecipe(ironBars);
 
         ShapedRecipe rChainHelmet = new ShapedRecipe(chainHelmet);
         ShapedRecipe rChainChestplate = new ShapedRecipe(chainChestplate);
@@ -47,7 +55,7 @@ public class newCrafts  {
         rIronLeggings.shape("***", "* *", "* *");
         rIronBoots.shape("* *", "* *");
 
-        //rIronBars.shape("***","***");
+        rIronBars.shape("***","***");
 
         rChainHelmet.shape("***", "* *");
         rChainChestplate.shape("* *", "***", "***");
@@ -63,7 +71,7 @@ public class newCrafts  {
         rIronLeggings.setIngredient('*', Material.IRON_BLOCK);
         rIronBoots.setIngredient('*', Material.IRON_BLOCK);
 
-        //rIronBars.setIngredient('*', Material.IRON_INGOT);
+        rIronBars.setIngredient('*', Material.IRON_INGOT);
 
         rChainHelmet.setIngredient('*', Material.IRON_BARS);
         rChainChestplate.setIngredient('*', Material.IRON_BARS);
@@ -82,7 +90,7 @@ public class newCrafts  {
         recipes.add(rIronLeggings);
         recipes.add(rIronBoots);
 
-        //recipes.add(rIronBars);
+        recipes.add(rIronBars);
 
         recipes.add(rChainHelmet);
         recipes.add(rChainChestplate);
@@ -103,6 +111,19 @@ public class newCrafts  {
 
         return noneRecipes;
     }
+
+    /*private ItemStack createHealPotion(){
+        ItemStack customHealPotion = new ItemStack(Material.SPLASH_POTION);
+        ItemMeta healPotion = customHealPotion.getItemMeta();
+
+        healPotion.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1,true);
+        healPotion.setDisplayName("Potion de vie");
+        healPotion.setLore(Arrays.asList("Cette potion permet de", "regagner des coeurs de façon permanente"));
+        customHealPotion.setItemMeta(healPotion);
+
+        return customHealPotion;
+    }*/
+
 
    /* public void removeRecipeByKey(String recipeKey) {
         MinecraftKey key = new MinecraftKey(recipeKey);

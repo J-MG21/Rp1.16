@@ -1,6 +1,5 @@
 package ca.kronoxx.RP.Bukkit.commands.cmd;
 
-import jdk.jfr.Timespan;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,10 +34,18 @@ public class RumorManager {
     }
 
     public void displayRumors(){
-        Bukkit.broadcastMessage("Rumeurs:");
+        Bukkit.broadcastMessage("§2Rumeurs:");
         int length = rumors.size();
         for (int i=0; i<length; ++i){
             Bukkit.broadcastMessage(rumors.get(i));
+        }
+    }
+
+    public void displayRumorsConnection(Player player){
+        player.sendMessage("§2Voici les rumeurs qui courent en ville:");
+        int length = rumors.size();
+        for (int i=0; i<length; ++i){
+            player.sendMessage(rumors.get(i));
         }
     }
 

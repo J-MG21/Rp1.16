@@ -34,8 +34,8 @@ public class DeathListener implements Listener {
         spawnDeadBody(dP, e.getDrops());
         player.permaDamage(2);
         //TODO player.permaDamage already do this function(I just can't test it works to reduce health)
-        //dP.setHealthScale(5d);
         dP.setMaxHealth(player.getHealth());
+        dP.setHealth(player.getHealth());
         Bukkit.broadcastMessage(Integer.toString(player.getHealth()));
     }
 

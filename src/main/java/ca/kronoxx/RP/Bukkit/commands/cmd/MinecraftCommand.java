@@ -21,15 +21,18 @@ public class MinecraftCommand {
     }
 
     public boolean isCommand(String name){
-        return this.name.equals(name);
+        return this.name.equalsIgnoreCase(name);
     }
 
     public boolean after(MinecraftCommand cmd){
-        return (this.name.compareTo(cmd.name) == -1);
+        return (this.name.compareToIgnoreCase(cmd.name) < 0);
+    }
+    public boolean after(String cmd){
+        return (this.name.compareToIgnoreCase(cmd) < 0);
     }
 
-    public boolean after(String cmd){
-        return (this.name.compareTo(cmd) == -1);
+    public String getName(){
+        return(this.name);
     }
 
 

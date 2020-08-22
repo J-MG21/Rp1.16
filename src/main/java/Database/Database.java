@@ -23,6 +23,9 @@ public class Database {
     public void open(){
         try {
             con = DriverManager.getConnection(connectionURL, username, password);
+            if(con ==null){
+                System.out.println("erreur bitch");
+            }
         } catch (SQLException e) {
             System.err.println("Error: Could not connect to database");
             e.printStackTrace();
@@ -50,7 +53,12 @@ public class Database {
     }
 
     public void query(String querry, Object... params){
+        System.out.println("IUWADHUIAWNDAUWDNAWUDN");
         PreparedStatement statement = null;
+        if(con == null){
+            System.out.println("erreur con");
+            return;
+        }
         try{
             statement = con.prepareStatement(querry);
             fillStatement(statement, params);

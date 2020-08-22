@@ -25,7 +25,9 @@ public class RpCommandInterface implements CommandExecutor {
 
 
     public void jobCommand(CommandSender sender, Command cmd, String label, String[] args){
+
         RPPlayer rpPlayer = Main.getInstance().getRpPlayer((Player) sender);
+        System.out.println(rpPlayer.getHealth());
         if(args.length <= 0){
             rpPlayer.getPlayer().sendMessage("§cFaites la commandes /job <set/remove> <player name> <job>");
         }else if(args[0].equalsIgnoreCase("set")){
@@ -36,18 +38,20 @@ public class RpCommandInterface implements CommandExecutor {
     }
 
     public void healthCommand(CommandSender sender, Command cmd, String label, String[] args){
-        Bukkit.broadcastMessage("test");
-        /*
-            for(Player player: Bukkit.getOnlinePlayers()){
-                if(player.getName().equalsIgnoreCase(args[0])){
-                    RPPlayer pH = main.playerConection().getRpPlayer(player);
-                    int vie = Integer.parseInt(args[1]);
-                    player.setHealthScale(vie);
-                    pH.setHealth(vie);
-                    return true;
-                }
-            }
-        */
+        String nomJoueur = args[0];
+        float vie = Float.parseFloat(args[1]);
+        Player playerH = Bukkit.getPlayer(nomJoueur);
+        RPPlayer rpPlayer = Main.getInstance().getRpPlayer(playerH);
+
+        if(playerH == null){
+            sender.sendMessage("§cLe joueur §4" + nomJoueur + "§c  n'est pas en ligne");
+        }
+        else{
+            sender.sendMessage("§aLe joueur §2" + nomJoueur + " §aa maintenant §2" + vie + " §ademi coeur(s)");
+            playerH.setMaxHealth(vie);
+            playerH.setHealth(vie);
+            rpPlayer.setHealth(Math.round(vie/2));
+        }
     }
 
     public void rumorCommand(CommandSender sender, Command cmd, String label, String[] args){
@@ -55,15 +59,20 @@ public class RpCommandInterface implements CommandExecutor {
             sender.sendMessage(CommandMSG.basicCommandError);
         }else if(args[0].equalsIgnoreCase("add")){
             rumorManager.addRumor(args);
+            sender.sendMessage(CommandMSG.addMessage);
         }else if(args[0].equalsIgnoreCase("send")){
             rumorManager.displayRumors();
         }else if(args[0].equalsIgnoreCase("wipe")){
             rumorManager.cleanRumors();
+            sender.sendMessage(CommandMSG.wipeMessage);
+        }
+        else{
+            sender.sendMessage(CommandMSG.wrongLabelError);
         }
     }
 
     public void alertCommand (CommandSender sender, Command cmd, String label, String[] args){
-        RPPlayer rpPlayer = Main.getInstance().getRpPlayer((Player) sender);
+        Player rpPlayer = (Player)sender;
         if(args.length == 0) {
             rpPlayer.getPlayer().sendMessage("§cVous devez écrire /alert <message> pour report un problème");
             return;
@@ -72,8 +81,8 @@ public class RpCommandInterface implements CommandExecutor {
         for(String part : args) {
             stringBuilder.append(part + " ");
         }
-        Bukkit.broadcast("§b" + rpPlayer.getPlayer().getName() +" §c" + stringBuilder.toString(), opAdminPermission);
-        rpPlayer.getPlayer().sendMessage("§aVous avez bien envoyé votre problème. Merci !!");
+        Bukkit.broadcast("§b" + rpPlayer.getName() +" §c" + stringBuilder.toString(), opAdminPermission);
+        rpPlayer.sendMessage("§aVous avez bien envoyé votre problème. Merci !!");
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -83,10 +92,16 @@ public class RpCommandInterface implements CommandExecutor {
 
     private ArrayList<MinecraftCommand> GetCommandSetups(){
         ArrayList<MinecraftCommand> cmds = new ArrayList<>();
-        cmds.add(new MinecraftCommand("Job Command", this::jobCommand));
-        cmds.add(new MinecraftCommand("Health Command", this::healthCommand));
-        cmds.add(new MinecraftCommand("RumorManager Command", this::rumorCommand));
-        cmds.add(new MinecraftCommand("Alert Command", this::alertCommand));
+        cmds.add(new MinecraftCommand("health", this::healthCommand));
+        cmds.add(new MinecraftCommand("job", this::jobCommand));
+        cmds.add(new MinecraftCommand("rumor", this::rumorCommand));
+        cmds.add(new MinecraftCommand("alert", this::alertCommand));
+
+
         return cmds;
     }
+
+     public void useRumor(Player player){
+        rumorManager.displayRumorsConnection(player);
+     }
 }

@@ -12,6 +12,7 @@ public class Database {
     private String password;
     private String username;
     private ResultSet result;
+    private PreparedStatement statement;
 
 
     public Database(String connectionURL, String username, String password){
@@ -20,16 +21,16 @@ public class Database {
         this.username = username;
     }
 
-    public void open(){
+    public Connection open(){
         try {
+            System.out.println("connecting to database");
             con = DriverManager.getConnection(connectionURL, username, password);
-            if(con ==null){
-                System.out.println("erreur bitch");
-            }
+            return con;
         } catch (SQLException e) {
             System.err.println("Error: Could not connect to database");
             e.printStackTrace();
         }
+        return null;
     }
 
     public <TResult> List<TResult> query(String query, ResultsetHandler<TResult> rsh, Object... params){
@@ -52,22 +53,23 @@ public class Database {
         return clients;
     }
 
-    public void query(String querry, Object... params){
-        System.out.println("IUWADHUIAWNDAUWDNAWUDN");
-        PreparedStatement statement = null;
+    public void query(String querry, String... params){
         if(con == null){
-            System.out.println("erreur con");
-            return;
+            System.out.println("erreur connection is null");
+            con = this.open();
+            if (con == null) {
+                System.out.println("we doom can not connect to database");
+                return;
+            }
         }
         try{
+            close(statement);
             statement = con.prepareStatement(querry);
             fillStatement(statement, params);
             close(result);
             this.result = statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            close(statement);
         }
     }
 
@@ -79,15 +81,47 @@ public class Database {
         }
     }
 
+    public boolean nextResult(){
+        if(result != null){
+            try {
+                boolean res = result.next();
+                System.out.println("has result: " + res);
+                return res;
+            }catch (Exception e){
+                System.out.println("no more results");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        System.err.println("result = null");
+        return false;
+    }
+
     public String getResult(String key){
         try {
-            return (result != null)? this.result.getString(key): null;
+            if(result == null){
+                return null;
+            }
+            return this.result.getString(key);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public String getResult(int key){
+        try {
+            if(result == null){
+                return null;
+            }
+            return this.result.getString(key);
         }catch (Exception e){
             return null;
         }
     }
 
     public void closeResult(){
+        System.out.println("closing result");
+        close(statement);
         close(result);
     }
 
@@ -109,12 +143,21 @@ public class Database {
         close(con);
     }
 
-    private void fillStatement (PreparedStatement statement, Object[] params) throws SQLException{
+    private void fillStatement (PreparedStatement statement, Object... params) throws SQLException{
         if(params == null){
             return;
         }
         for(int i=0; i<params.length; ++i){
             statement.setObject(i+1, params[i]);
+        }
+    }
+
+    private void fillStatement (PreparedStatement statement, String[] params) throws SQLException{
+        if(params == null){
+            return;
+        }
+        for(int i=0; i<params.length; ++i){
+            statement.setString(i+1, params[i]);
         }
     }
 

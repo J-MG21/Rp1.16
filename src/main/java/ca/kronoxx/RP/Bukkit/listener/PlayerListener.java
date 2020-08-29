@@ -56,15 +56,20 @@ public class PlayerListener implements Listener {
 
         if(healPotion.getItemMeta().getDisplayName().equals(Main.getInstance().getNewCrafts().HealPotion.getHealPotion().getItemMeta().getDisplayName())){
              Collection<LivingEntity> entitees = e.getAffectedEntities();
-             for(Entity p: entitees){
-                 if(p instanceof Player){
-                     //TODO rpPlayer
-                     RPPlayer rpPlayer = Main.getInstance().getRpPlayer((Player) p);
-                     int vie = rpPlayer.getHealth();
-                     rpPlayer.permaHeal(2);
 
-                     ((Player) p).setHealthScale(vie+2);
-                     ((Player) p).setHealth(vie+2);
+             for(Entity p: entitees){
+                 Player playerP = (Player) p;
+
+                 if(playerP  instanceof Player){
+                     //TODO rpPlayer
+                     RPPlayer rpPlayer = Main.getInstance().getRpPlayer(playerP);
+                     rpPlayer.permaHeal(4);
+                     int vie = rpPlayer.getHealth();
+
+                     Bukkit.broadcastMessage("vie = " + vie);
+                     (playerP).setMaxHealth(vie);
+                     (playerP).setHealthScale(vie);
+                     (playerP).setHealth(vie);
                  }
              }
         }

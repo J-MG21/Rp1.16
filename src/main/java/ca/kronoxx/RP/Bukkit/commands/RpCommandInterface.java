@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 public class RpCommandInterface implements CommandExecutor {
-    public static final String opAdminPermission = "minecraft.command.difficulty";
+    public static final String opAdminPermission = "minecraft.command.kill";
     private RumorManager rumorManager = new RumorManager();
     private MinecraftCommandManager commandManager;
 
@@ -29,7 +29,7 @@ public class RpCommandInterface implements CommandExecutor {
         RPPlayer rpPlayer = Main.getInstance().getRpPlayer((Player) sender);
         System.out.println(rpPlayer.getHealth());
         if(args.length <= 0){
-            rpPlayer.getPlayer().sendMessage("§cFaites la commandes /job <set/remove> <player name> <job>");
+            rpPlayer.getPlayer().sendMessage("§cFaites la commandes /job set <player name> <job>");
         }else if(args[0].equalsIgnoreCase("set")){
             rpPlayer.changeJob(args[2]);
             rpPlayer.getPlayer().sendMessage("§aLe joueur §b" + args[1] + " §a est maintenant §b" + args[2]);
@@ -39,7 +39,7 @@ public class RpCommandInterface implements CommandExecutor {
 
     public void healthCommand(CommandSender sender, Command cmd, String label, String[] args){
         String nomJoueur = args[0];
-        float vie = Float.parseFloat(args[1]);
+        int vie = Integer.parseInt(args[1]);
         Player playerH = Bukkit.getPlayer(nomJoueur);
         RPPlayer rpPlayer = Main.getInstance().getRpPlayer(playerH);
 
@@ -50,7 +50,7 @@ public class RpCommandInterface implements CommandExecutor {
             sender.sendMessage("§aLe joueur §2" + nomJoueur + " §aa maintenant §2" + vie + " §ademi coeur(s)");
             playerH.setMaxHealth(vie);
             playerH.setHealth(vie);
-            rpPlayer.setHealth(Math.round(vie/2));
+            rpPlayer.setHealth(vie);
         }
     }
 
@@ -84,6 +84,7 @@ public class RpCommandInterface implements CommandExecutor {
         Bukkit.broadcast("§b" + rpPlayer.getName() +" §c" + stringBuilder.toString(), opAdminPermission);
         rpPlayer.sendMessage("§aVous avez bien envoyé votre problème. Merci !!");
     }
+
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         this.commandManager.executeCommand(sender, cmd, label, args);

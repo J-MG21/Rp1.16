@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import java.lang.management.PlatformLoggingMXBean;
 
 public class RPPlayer{
-    public static int MAX_HEALTH = 10;
+    public static int MAX_HEALTH = 20;
     public static int MIN_HEALTH = 4;
 
     private String job;

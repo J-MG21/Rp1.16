@@ -32,11 +32,9 @@ public class DeathListener implements Listener {
         RPPlayer player = Main.getInstance().getRpPlayer(dP);
         e.setDeathMessage("");
         spawnDeadBody(dP, e.getDrops());
-        player.permaDamage(2);
+        player.permaDamage(4);
         //TODO player.permaDamage already do this function(I just can't test it works to reduce health)
-        dP.setMaxHealth(player.getHealth());
-        dP.setHealth(player.getHealth());
-        Bukkit.broadcastMessage(Integer.toString(player.getHealth()));
+        dP.setHealthScale(player.getHealth());
     }
 
     private void spawnDeadBody(Player dP, List<ItemStack> drops){

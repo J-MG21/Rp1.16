@@ -54,15 +54,19 @@ public class Database {
     }
 
     public void query(String querry, String... params){
-        if(con == null){
+
+        if(con == null ){
             System.out.println("erreur connection is null");
             con = this.open();
-            if (con == null) {
+            if (con == null ) {
                 System.out.println("we doom can not connect to database");
                 return;
             }
         }
         try{
+            if(con.isClosed()){
+                this.open();
+            }
             close(statement);
             statement = con.prepareStatement(querry);
             fillStatement(statement, params);
@@ -128,6 +132,9 @@ public class Database {
     public int update(String query, Object... params){
         PreparedStatement statement = null;
         try{
+            if(con.isClosed()){
+                this.open();
+            }
             statement = con.prepareStatement(query);
             fillStatement(statement, params);
             return statement.executeUpdate();

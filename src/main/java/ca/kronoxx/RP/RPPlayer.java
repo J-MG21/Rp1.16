@@ -1,6 +1,8 @@
 package ca.kronoxx.RP;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.lang.management.PlatformLoggingMXBean;
 
@@ -11,6 +13,9 @@ public class RPPlayer{
     private String job;
     private Player player;
     private int health;
+    private Boolean admin = false;
+    private ItemStack[] inventaire;
+    private Location position;
 
     public static RPPlayer genPlayerForSaveLoad(Player player){
         RPPlayer p = new RPPlayer();
@@ -43,6 +48,12 @@ public class RPPlayer{
         return this.health;
     }
 
+    public boolean getAdmin(){return this.admin;}
+
+    public ItemStack[] getInventaire(){return this.inventaire;}
+
+    public Location getPosition(){return this.position;}
+
     public void permaDamage(int damage){
         int health = this.health - damage;
         if(health <= MAX_HEALTH && health >= MIN_HEALTH) {
@@ -73,5 +84,16 @@ public class RPPlayer{
             return;
         }
         this.health = MAX_HEALTH;
+    }
+
+    public void setAdmin(boolean bool){
+        admin = bool;
+    }
+    public void setInventaire(ItemStack[] inv){
+        inventaire = inv;
+    }
+
+    public void setPosition(Location co){
+        position = co;
     }
 }

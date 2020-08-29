@@ -15,4 +15,7 @@ commands:
   rumor:
     description: Permet de modifier les rumeures
     permission: rumor.use
+  admin:
+    description: Permet de se mettre en mode Admin
+    permission: admin.use
 

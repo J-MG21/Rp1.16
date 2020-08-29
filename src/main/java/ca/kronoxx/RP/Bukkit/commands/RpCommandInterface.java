@@ -6,10 +6,17 @@ import ca.kronoxx.RP.Bukkit.commands.cmd.RumorManager;
 import ca.kronoxx.RP.Main;
 import ca.kronoxx.RP.RPPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 
@@ -74,7 +81,7 @@ public class RpCommandInterface implements CommandExecutor {
     public void alertCommand (CommandSender sender, Command cmd, String label, String[] args){
         Player rpPlayer = (Player)sender;
         if(args.length == 0) {
-            rpPlayer.getPlayer().sendMessage("§cVous devez écrire /alert <message> pour report un problème");
+            rpPlayer.getPlayer().sendMessage("§cVous devez écrire /alert <message> pour report un problèmeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
             return;
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -83,6 +90,36 @@ public class RpCommandInterface implements CommandExecutor {
         }
         Bukkit.broadcast("§b" + rpPlayer.getName() +" §c" + stringBuilder.toString(), opAdminPermission);
         rpPlayer.sendMessage("§aVous avez bien envoyé votre problème. Merci !!");
+    }
+
+    public void adminCommand(CommandSender sender, Command cmd, String label, String[] args){
+        Player player = (Player) sender;
+        RPPlayer rPPlayer = Main.getInstance().getRpPlayer(player);
+        ItemStack[] inventaire = rPPlayer.getInventaire();
+        Location co = rPPlayer.getPosition();
+
+
+        if(rPPlayer.getAdmin() == true){
+            rPPlayer.setAdmin(false);
+            player.sendMessage("§aVous n'êtes plus maintenant en mode §2Admin");
+
+            player.removePotionEffect((PotionEffectType.INVISIBILITY));
+            player.getInventory().setContents(inventaire);
+            player.teleport(co);
+            player.setGameMode(GameMode.SURVIVAL);
+            return;
+        }
+        player.sendMessage("§aVous êtes maintenant en mode: §2Admin");
+
+        rPPlayer.setInventaire(player.getInventory().getContents());
+        rPPlayer.setPosition(player.getLocation());
+
+        player.getInventory().clear();
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,1000000,1,true));
+        player.setGameMode(GameMode.SPECTATOR);
+        rPPlayer.setAdmin(true);
+
+
     }
 
 
@@ -97,7 +134,7 @@ public class RpCommandInterface implements CommandExecutor {
         cmds.add(new MinecraftCommand("job", this::jobCommand));
         cmds.add(new MinecraftCommand("rumor", this::rumorCommand));
         cmds.add(new MinecraftCommand("alert", this::alertCommand));
-
+        cmds.add(new MinecraftCommand("admin", this::adminCommand));
 
         return cmds;
     }

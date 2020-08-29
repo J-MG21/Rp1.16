@@ -77,6 +77,7 @@ public class Main extends JavaPlugin {
         getCommand("alert").setExecutor(rpInterface);
         getCommand("health").setExecutor(rpInterface);
         getCommand("rumor").setExecutor(rpInterface);
+        getCommand("admin").setExecutor(rpInterface);
     }
 
     //GETTER///////////////////////////////////////////////////////////////////////////////////////////////////////////
